@@ -5,7 +5,7 @@ echo "core" > /proc/sys/kernel/core_pattern
 export GOTRACEBACK=crash
 
 test_cgo_panic-main# /root/go/bin/dlv core ./test core.1106319
-
+```
 (dlv) bt
  0  0x0000000000460ec1 in runtime.raise
     at /home/soomohan/mbalraj/GO/go1.20.2/go/src/runtime/sys_linux_amd64.s:154
@@ -44,9 +44,9 @@ test_cgo_panic-main# /root/go/bin/dlv core ./test core.1106319
     at ?:-1
     error: error while reading spliced memory at 0x8: EOF
 (truncated)
-
+```
 Line which is causing the issue is clear from the following runtime debugging using dlv.
-  
+```
   test_cgo_panic-main# /root/go/bin/dlv exec ./test
 (dlv) break runtime.unwindm
 Breakpoint 1 set at 0x4054e6 for runtime.unwindm() /home/soomohan/mbalraj/GO/go1.20.2/go/src/runtime/cgocall.go:326
@@ -72,5 +72,5 @@ Warning: debugging optimized function
 (dlv) n
 (dlv) p %x mp.g0.sched.sp
 7ffcc23bdbb8
-  
+```  
   
